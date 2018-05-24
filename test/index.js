@@ -1,7 +1,7 @@
 const stations = require('../lib/station_name')
 
 function init () {
-  initStation ()
+  return initStation ()
 }
 
 function initStation () {
@@ -11,16 +11,17 @@ function initStation () {
   station_arr = stations.station_names.split('@')
   station_arr.splice(0, 1)
   station_arr.forEach(val => {
-    let key = val.split('|')[1]
-    result[key] = val
+    val = val.split('|')
+    result[val[1]] = val[2]
   })
-  console.log(result);  
+  return result
 }
 
-function parseResult (res) {
+export function parseResult (res) {
   let data_list = res.split('|')
   let list = {}
 
+  list.train_no = data_list[3]
   list.from_station_code = data_list[6]
   list.to_station_code = data_list[7]
   list.from_station_name = ''
@@ -36,8 +37,8 @@ function parseResult (res) {
   list.hard_sleep = data_list[28] || '--'
   list.hard_seat = data_list[29] || '--'
   list.no_seat = data_list[26] || '--'
-
+  console.log(list)
   return list
 }
 
-init()
+export const data = init()
